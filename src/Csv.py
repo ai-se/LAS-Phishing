@@ -112,7 +112,7 @@ def corpus_labels(corpus,target_column,target_class):
     for x in corpus:
         data.append(x[:target_column])
         labels.append(x[target_column])
-    labels=[1 if x==target_class else 0 for x in labels]
+    labels=[1 if x==target_class else -1 for x in labels]
     return data,labels
 
 if __name__ == '__main__':

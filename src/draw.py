@@ -45,4 +45,4 @@ def draw(temp={}):
     plt.ylabel("Scores", labelpad=30)
     plt.xlabel("Measures", labelpad=30)
     plt.legend(bbox_to_anchor=(1.05, 1.0), loc=2, borderaxespad=0.)
-    plt.savefig("../results/Graph_less.png")
+    plt.savefig("../results/Graph-1.png")
