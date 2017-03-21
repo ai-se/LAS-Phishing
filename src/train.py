@@ -11,6 +11,7 @@ sys.dont_write_bytecode = True
 import Learners
 from draw import draw
 import pickle
+from csvread import *
 
 class Csv(object):
     """docstring for Csv"""
@@ -74,37 +75,8 @@ class Table:
             rows.append(row)
         for x in zip(*rows):
             data[x[0]]=list(x[1:])
-        return data
 
-def show_stats(data,col_no=0):
-    try:
-        col_no=int(col_no)
-    except:
-        return "Not Integer"
-    if col_no==0 or col_no>len(data.columns):
-        return "Column Number is not within range"
-    elif data[data.columns[col_no-1]].dtype==np.int64 or data[data.columns[col_no-1]].dtype==np.float64:
-        string="Mean, Median, Std Deviation and Variance of "+ str(data.columns[col_no-1])+\
-                ": "+ str(data[data.columns[col_no-1]].mean())+", "+\
-        str(data[data.columns[col_no - 1]].median())+", "+ str(data[data.columns[col_no - 1]].std())+\
-        ", " + str(data[data.columns[col_no - 1]].var())# median, std, var
-        return string
-    else:
-        string="Count of values: \n"+ str(pd.value_counts(data[data.columns[col_no - 1]]))
-        return string
-
-def encode_target(df):
-    df_mod = df.copy()
-    target_class=0
-    for i in df.columns:
-        if df[i].dtype==object:
-            df_mod = df_mod.copy()
-            targets = df_mod[i].unique()
-            if i=='loan_status':
-                target_class=list(targets).index('Fully Paid')
-            map_to_int = {name: n+1 for n, name in enumerate(targets)}
-            df_mod[i] = df_mod[i].replace(map_to_int)
-    return df_mod, target_class+1
+        return data,rows
 
 def corpus_labels(corpus,target_column,target_class):
     data=[]
@@ -119,15 +91,15 @@ if __name__ == '__main__':
 
     data = '../dataset/training.csv'
     table = Table(data)
-    data=table.add_rows(data)
+    data,_=table.add_rows(data)
     df=pd.DataFrame(data)
 
     ## replace missing values with nan
     df=df.replace(r'', np.nan, regex=True)
     df.fillna(0,inplace=True)
     target_class=1
-    df=df[['Prefix_Suffix', 'having_Sub_Domain', 'SSLfinal_State', 'Request_URL', 'URL_of_Anchor',
-           'Links_in_tags', 'SFH', 'web_traffic', 'Google_Index', 'Result']]
+    df=df[['Prefix_Suffix', 'having_Sub_Domain', 'Request_URL', 'URL_of_Anchor',
+           'Links_in_tags', 'SFH', 'Google_Index', 'Result']]
     ## with all features
     '''target_column=df.columns.get_loc("Result")
     data=df.values.tolist()
@@ -144,10 +116,8 @@ if __name__ == '__main__':
     target_column = df.columns.get_loc("Result")
     data = df.values.tolist()
     corpus, label = corpus_labels(data, target_column, target_class)
-
-    temp = Learners.prediction(np.asarray(corpus), np.asarray(label), target_class)
-    with open('../dump/result1.pickle', 'wb') as handle:
+    test_data,test_labels=features_read('../dataset/features.csv')
+    temp = Learners.prediction(np.asarray(corpus), np.asarray(label), target_class,test_data,test_labels)
+    with open('../dump/result_prep_fea.pickle', 'wb') as handle:
         pickle.dump(temp, handle)
-    # with open('../dump/result.pickle', 'rb') as handle:
-    #    temp = pickle.load(handle)
     draw(temp)

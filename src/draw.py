@@ -16,7 +16,7 @@ def draw(temp={}):
     paras = {'lines.linewidth': 10, 'legend.fontsize': 35, 'axes.labelsize': 60, 'legend.frameon': False,
              'figure.autolayout': True}
     plt.rcParams.update(paras)
-    measures=['false_alarm', 'recall', 'precision', 'fscore', 'accuracy']
+    measures=['false_alarm', 'recall', 'precision', 'fscore', 'accuracy', 'auc']
 
     measure_med = {}
     measure_iqr = {}
@@ -45,4 +45,4 @@ def draw(temp={}):
     plt.ylabel("Scores", labelpad=30)
     plt.xlabel("Measures", labelpad=30)
     plt.legend(bbox_to_anchor=(1.05, 1.0), loc=2, borderaxespad=0.)
-    plt.savefig("../results/Graph-1.png")
+    plt.savefig("../results/Graph_prep_fea.png")

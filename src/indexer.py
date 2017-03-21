@@ -3,12 +3,10 @@ from __future__ import print_function, division
 __author__ = 'amrit'
 
 import sys
-# Google says don't use this script: https://twitter.com/methode/status/783733724655517696
-# This script is a violation of Google Terms of Service. Don't use it.
-
 import requests
 from bs4 import BeautifulSoup
 from urllib import urlencode
+
 sys.dont_write_bytecode = True
 
 proxies = {

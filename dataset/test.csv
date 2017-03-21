@@ -1,0 +1,4 @@
+phish_id,url,phish_detail_url,submission_time,verified,verification_time,online,target
+4694651,http://www.iphonesticker.com/js/x10.html,http://www.phishtank.com/phish_detail.php?phish_id=4694651,2016-12-20T05:21:24+00:00,yes,2016-12-23T07:36:59+00:00,yes,Yahoo
+4671304,http://buytobuytradestore.com/PADPA/REMAX/remax/info/index.htm,http://www.phishtank.com/phish_detail.php?phish_id=4671304,2016-12-09T16:26:06+00:00,yes,2016-12-10T12:40:40+00:00,yes,Yahoo
+4666152,http://www.warnaholiday.com/wp-includes/js/godaddy/godaddy/index.php?email,http://www.phishtank.com/phish_detail.php?phish_id=4666152,2016-12-07T10:03:57+00:00,yes,2017-01-06T12:08:24+00:00,yes,Yahoo

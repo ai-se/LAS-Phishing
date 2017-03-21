@@ -1,0 +1,56 @@
+from __future__ import print_function, division
+
+__author__ = 'amrit'
+
+import sys
+from train import Table, corpus_labels
+import pandas as pd
+from regex import *
+import csv
+import numpy as np
+
+sys.dont_write_bytecode = True
+
+def read_csv(file='../dataset/verified_online.csv'):
+    table = Table(file)
+    _,rows = table.add_rows(file)
+    csvfile=open('../dataset/features.csv', 'wb')
+    csvwriter=csv.writer(csvfile, delimiter=',')
+    for i,x in enumerate(rows):
+        if i!=0:
+            if x[-1].lower()!='other':
+                str = x[1].lower()
+                try:
+                    request = urllib2.Request(str)
+                    response = urllib2.urlopen(request).read()
+                    ## Feature extraction
+                    l=process(response,str,pref_suffix,multi_subdomain,request_url,url_anchor,links_in_tags,SFH,google_index)
+                    print(l)
+                    ## Class label
+                    l.append(1)
+                    csvwriter.writerow(l+[str]+[x[-1]])
+                except:
+                    print("can not open: "+str)
+        elif i==0:
+            csvwriter.writerow(['Prefix_Suffix', 'having_Sub_Domain', 'Request_URL', 'URL_of_Anchor',
+           'Links_in_tags', 'SFH', 'Google_Index', 'Result', 'URL', 'Target'])
+    csvfile.close()
+    #df = pd.DataFrame(data)
+    #print(df.columns.values.tolist())
+
+def features_read(file='../dataset/features.csv'):
+    table = Table(file)
+    data,_ = table.add_rows(file)
+    df = pd.DataFrame(data)
+    ## replace missing values with nan
+    df = df.replace(r'', np.nan, regex=True)
+    df.fillna(0, inplace=True)
+    target_class = 1
+    df = df[['Prefix_Suffix', 'having_Sub_Domain', 'Request_URL', 'URL_of_Anchor',
+             'Links_in_tags', 'SFH', 'Google_Index', 'Result']]
+    target_column = df.columns.get_loc("Result")
+    data = df.values.tolist()
+    test_data, test_labels = corpus_labels(data, target_column, target_class)
+    return test_data,test_labels
+
+features_read()

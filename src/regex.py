@@ -29,7 +29,6 @@ def pref_suffix(response='', str=''):
 
 def multi_subdomain(response='', str=''):
     pattern = re.compile(r'https?://((\w*.)*)/?')
-    print(pattern.findall(str))
     domain = pattern.findall(str)[0][0]
     li = re.split('\.', domain)
     if 'www' in li:
@@ -61,13 +60,12 @@ def request_url(response='', str=''):
     no = 0
     list = soup.find_all('img', attrs={'src': re.compile("^https?://")}) + soup.find_all('audio', attrs={
         'src': re.compile("^https?://")}) + soup.find_all('video', attrs={'src': re.compile("^https?://")})
-    print(list)
+
     for l in list:
         total += 1
         ext = tldextract.extract(l['src'])
-        if ext.domain != url.domain and re.compile("^https?://").match(l)!=None:
+        if ext.domain != url.domain and re.compile("^https?://").match(l['src'])!=None:
             no += 1
-    print(total, no)
     try:
         frac = no / total
     except:
@@ -88,9 +86,8 @@ def url_anchor(response='', str=''):
     for l in soup.find_all('a', attrs={'href': re.compile("^https?://")}):
         total += 1
         ext = tldextract.extract(l['href'])
-        if ext.domain != url.domain and re.compile("^https?://").match(l)!=None:
+        if ext.domain != url.domain and re.compile("^https?://").match(l['href'])!=None:
             no += 1
-    print(total, no)
     try:
         frac = no / total
     except:
@@ -111,13 +108,11 @@ def links_in_tags(response='', str=''):
     list = [unicodedata.normalize('NFKD', l['href']).encode('ascii','ignore') for l in soup.find_all('link', attrs={'href': re.compile("^https?://")})] + \
            [unicodedata.normalize('NFKD', l['src']).encode('ascii','ignore') for l in soup.find_all( 'script', attrs={'src': re.compile("^https?://")})] + [
         unicodedata.normalize('NFKD', l['content']).encode('ascii', 'ignore') for l in soup.find_all('meta', attrs={'content': re.compile("^https?://")})]
-    print(list)
     for l in list:
         total += 1
         ext = tldextract.extract(l)
         if ext.domain != url.domain and re.compile("^https?://").match(l)!=None:
             no += 1
-    print(total, no)
     try:
         frac = no / total
     except:
@@ -154,13 +149,13 @@ def process(response, str, *steps):
         l.append(p(response, str))
     return l
 
-if __name__ == '__main__':
-    str = strings[1].lower()
-    request = urllib2.Request(str)
-    response = urllib2.urlopen(request).read()
-    # l=process(response,str,pref_suffix,multi_subdomain,SSH,request_url,url_anchor,links_in_tags,SFH,google_index)
-
-    print(google_index(response, str))
+# if __name__ == '__main__':
+#     str = strings[1].lower()
+#     request = urllib2.Request(str)
+#     response = urllib2.urlopen(request).read()
+#     # l=process(response,str,pref_suffix,multi_subdomain,request_url,url_anchor,links_in_tags,SFH,google_index)
+#
+#     print(google_index(response, str))
 
 ## More other link sources.
 

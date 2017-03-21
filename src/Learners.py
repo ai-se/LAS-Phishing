@@ -14,6 +14,7 @@ import numpy as np
 from random import shuffle
 from ABCD import ABCD
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_curve, auc
 sys.dont_write_bytecode = True
 
 
@@ -65,13 +66,15 @@ def split(inp, out, n_folds):
 def measures(actual, predicted, labels):
     return precision_recall_fscore_support(actual, predicted, labels=labels)
 
-def run(corpus,label, target_class,classifier):
+def run(corpus,label, target_class,test_data,test_labels,classifier):
     print("***** %s *****" % classifier.__name__)
     splits = 5
     folds=5
-    a,f,p,r,pf=[],[],[],[],[]
+    a,f,p,r,pf,area=[],[],[],[],[],[]
     corpus=np.array(corpus)
     label=np.array(label)
+    test_data=np.array(test_data)
+    test_labels=np.array(test_labels)
     for i in xrange(folds):
         "Shuffle"
         tmp = range(0, len(label))
@@ -79,21 +82,25 @@ def run(corpus,label, target_class,classifier):
         corpus = corpus[tmp]
         label = label[tmp]
         for train_inp, train_out, test_inp, test_out in split(corpus, label, splits):
+            test_inp=np.vstack((test_inp, test_data))
             model, predicted = classifier(train_inp, train_out, test_inp)
+            test_out=np.concatenate((test_out, test_labels))
             labels=list(np.unique(test_out))
             abcd = ABCD(before=test_out, after=predicted)
             r1,_,p1,a1,f1,_,_,pf1=[k.stats() for k in abcd()][labels.index(target_class)]
+            fpr, tpr, _ = roc_curve(test_out, predicted, pos_label=target_class)
             a.append(a1)
             r.append(r1)
             f.append(f1)
             p.append(p1)
             pf.append(pf1)
+            area.append(auc(fpr, tpr))
 
-    return {"acc":a,"pre":p,"rec":r,"pf":pf,"f1":f}
+    return {"acc":a,"pre":p,"rec":r,"pf":pf,"f1":f,"auc":area}
 
-def prediction(corpus,label,target_class):
+def prediction(corpus,label,target_class,test_data,test_labels):
     classifiers=[lin_svm,log_reg,naive_bayes,dec_tree,rbf_svm,knn,ran_forest]
     temp={}
     for i in classifiers:
-        temp[i.__name__]=run(corpus,label,target_class, i)
+        temp[i.__name__]=run(corpus,label,target_class,test_data,test_labels, i)
     return temp
