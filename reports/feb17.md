@@ -11,7 +11,7 @@ From our January work ([past report] (https://github.com/ai-se/LAS-Phishing/blob
 - Most of these websites are from other sources but from the 2nd diagram, it is seen that there are about 3,000 websites which have been targeted on good sources. **This is bad**.
 
 ### The 9 important attributes are:
-Description of these attributes can be find out [at] (https://github.com/ai-se/LAS-Phishing/blob/master/dataset/Phishing%20Websites%20Features.docx). Code could be found [at] (https://github.com/ai-se/LAS-Phishing/blob/master/src/regex).
+Description of these attributes can be find out [at] (https://github.com/ai-se/LAS-Phishing/blob/master/dataset/Phishing%20Websites%20Features.docx). Code could be found [at] (https://github.com/ai-se/LAS-Phishing/blob/master/src/regex.py).
 
 <!--| Attributes | Implementation | 
 | --- | :-: |
