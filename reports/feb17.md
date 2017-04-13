@@ -1,6 +1,6 @@
 ## Accomplished in February
  
-From our January work ([past report] (https://github.com/ai-se/LAS-Phishing/blob/master/reports/jan17.md)), we found out that only 9 out 30 attributes are important and we achieved the same results as with using 30 attributes ([Results] (https://github.com/ai-se/LAS-Phishing/issues/2)) on [UCI dataset] (https://archive.ics.uci.edu/ml/datasets/Phishing+Websites). The other dataset which we found is from phistank and can be seen [here] (http://www.phishtank.com/developer_info.php). Some statistics based on this dataset can be seen in below diagram.
+From our January work ([past report](https://github.com/ai-se/LAS-Phishing/blob/master/reports/jan17.md)), we found out that only 9 out 30 attributes are important and we achieved the same results as with using 30 attributes ([Results](https://github.com/ai-se/LAS-Phishing/issues/2)) on [UCI dataset](https://archive.ics.uci.edu/ml/datasets/Phishing+Websites). The other dataset which we found is from phistank and can be seen [here](http://www.phishtank.com/developer_info.php). Some statistics based on this dataset can be seen in below diagram.
 
 ![image](https://cloud.githubusercontent.com/assets/29195/23268398/9a9f740e-f9bb-11e6-89db-eacd39b38608.png)
 
@@ -11,7 +11,7 @@ From our January work ([past report] (https://github.com/ai-se/LAS-Phishing/blob
 - Most of these websites are from other sources but from the 2nd diagram, it is seen that there are about 3,000 websites which have been targeted on good sources. **This is bad**.
 
 ### The 9 important attributes are:
-Description of these attributes can be find out [at] (https://github.com/ai-se/LAS-Phishing/blob/master/dataset/Phishing%20Websites%20Features.docx). Code could be found [at] (https://github.com/ai-se/LAS-Phishing/blob/master/src/regex.py).
+Description of these attributes can be find out [at](https://github.com/ai-se/LAS-Phishing/blob/master/dataset/Phishing%20Websites%20Features.docx). Code could be found [at](https://github.com/ai-se/LAS-Phishing/blob/master/src/regex.py).
 
 <!--| Attributes | Implementation | 
 | --- | :-: |
