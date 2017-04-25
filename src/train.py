@@ -11,7 +11,7 @@ sys.dont_write_bytecode = True
 import Learners
 from draw import draw
 import pickle
-from csvread import *
+#from csvread import *
 
 class Csv(object):
     """docstring for Csv"""

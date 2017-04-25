@@ -11,10 +11,10 @@ import numpy as np
 
 sys.dont_write_bytecode = True
 
-def read_csv(file='../dataset/verified_online.csv'):
+def read_csv_pos(file='../dataset/verified_online.csv'):
     table = Table(file)
     _,rows = table.add_rows(file)
-    csvfile=open('../dataset/features.csv', 'wb')
+    csvfile=open('../dataset/phistank+features.csv', 'wb')
     csvwriter=csv.writer(csvfile, delimiter=',')
     for i,x in enumerate(rows):
         if i!=0:
@@ -29,6 +29,33 @@ def read_csv(file='../dataset/verified_online.csv'):
                     ## Class label
                     l.append(1)
                     csvwriter.writerow(l+[str]+[x[-1]])
+                except:
+                    print("can not open: "+str)
+        elif i==0:
+            csvwriter.writerow(['Prefix_Suffix', 'having_Sub_Domain', 'Request_URL', 'URL_of_Anchor',
+           'Links_in_tags', 'SFH', 'Google_Index', 'Result', 'URL', 'Target'])
+    csvfile.close()
+    #df = pd.DataFrame(data)
+    #print(df.columns.values.tolist())
+
+def read_csv_neg(file='../dataset/phistank-urls.csv'):
+    table = Table(file)
+    _,rows = table.add_rows(file)
+    csvfile=open('../dataset/phistank-features.csv', 'wb')
+    csvwriter=csv.writer(csvfile, delimiter=',')
+    for i,x in enumerate(rows):
+        if i!=0:
+            if x[0].lower()!='other':
+                str = x[1].lower()
+                try:
+                    request = urllib2.Request(str)
+                    response = urllib2.urlopen(request).read()
+                    ## Feature extraction
+                    l=process(response,str,pref_suffix,multi_subdomain,request_url,url_anchor,links_in_tags,SFH,google_index)
+                    print(l)
+                    ## Class label
+                    l.append(-1)
+                    csvwriter.writerow(l+[str]+[x[0]])
                 except:
                     print("can not open: "+str)
         elif i==0:
@@ -53,4 +80,5 @@ def features_read(file='../dataset/features.csv'):
     test_data, test_labels = corpus_labels(data, target_column, target_class)
     return test_data,test_labels
 
-features_read()
+#read_csv_neg()
+#features_read()
