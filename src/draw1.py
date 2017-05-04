@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
             #plt.ylim(m, M)
             plt.xticks(X, measures)
-            plt.ylabel("Scores", labelpad=30)
+            plt.ylabel("Delta Improvement", labelpad=30)
             plt.xlabel("Measures", labelpad=30)
             plt.legend(bbox_to_anchor=(1.05, 1.0), loc=2, borderaxespad=0.)
-            plt.savefig("../results/"+f+".png")
+            plt.savefig("../results/"+f+"1.png")
