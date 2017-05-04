@@ -73,7 +73,7 @@ if __name__ == '__main__':
             #measures=['pf', 'rec', 'prec', 'f1', 'acc']
             for key in measure_iqr.keys():
                 # if key in ['knn', 'rbf_svm', 'lin_svm', 'ran_forest']:
-                    line, = plt.plot(X, delta[key], marker='*', markersize=20, label= str(key) + ' med')
+                    line, = plt.plot(X, delta[key], marker='*', markersize=20, label= str(key))
 
                     #line,=plt.plot(X, lace_dic[key],marker='*', markersize=20, label='lace_'+str(key)+' med')
 
