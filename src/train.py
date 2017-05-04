@@ -11,7 +11,7 @@ sys.dont_write_bytecode = True
 import Learners
 from draw import draw
 import pickle
-#from csvread import *
+from csvread import *
 
 class Csv(object):
     """docstring for Csv"""
@@ -89,7 +89,8 @@ def corpus_labels(corpus,target_column,target_class):
 
 if __name__ == '__main__':
 
-    data = '../dataset/training.csv'
+    #data = '../dataset/uci_training.csv'
+    data = '/Users/amrit/GITHUB/LAS-Phishing/dataset/training/laced_training_0.1_0.2_0.8.csv'
     table = Table(data)
     data,_=table.add_rows(data)
     df=pd.DataFrame(data)
@@ -116,8 +117,14 @@ if __name__ == '__main__':
     target_column = df.columns.get_loc("Result")
     data = df.values.tolist()
     corpus, label = corpus_labels(data, target_column, target_class)
-    test_data,test_labels=features_read('../dataset/features.csv')
-    temp = Learners.prediction(np.asarray(corpus), np.asarray(label), target_class,test_data,test_labels)
-    with open('../dump/result_prep_fea.pickle', 'wb') as handle:
-        pickle.dump(temp, handle)
-    draw(temp)
+    files=['AOL','Facebook','PayPal','Google','Apple','Yahoo']
+    final={}
+    for i in files:
+        print(i)
+        test_data,test_labels=features_read('../dataset/testing/'+i+'.csv')
+        final[i] = Learners.prediction(np.asarray(corpus), np.asarray(label), target_class,np.asarray(test_data),np.asarray(test_labels))
+
+    with open('../dump/lace/result.pickle', 'wb') as handle:
+        pickle.dump(final, handle)
+
+    #draw(temp)

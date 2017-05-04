@@ -8,6 +8,7 @@ import pandas as pd
 from regex import *
 import csv
 import numpy as np
+from random import shuffle
 
 sys.dont_write_bytecode = True
 
@@ -80,5 +81,30 @@ def features_read(file='../dataset/features.csv'):
     test_data, test_labels = corpus_labels(data, target_column, target_class)
     return test_data,test_labels
 
+def gen_testing_phistank(file='../dataset/phistank.csv'):
+    table = Table(file)
+    data, _ = table.add_rows(file)
+    df = pd.DataFrame(data)
+    ## replace missing values with nan
+    df = df.replace(r'', np.nan, regex=True)
+    df.fillna(0, inplace=True)
+    headers=['Prefix_Suffix', 'having_Sub_Domain', 'Request_URL', 'URL_of_Anchor',
+             'Links_in_tags', 'SFH', 'Google_Index', 'Result','Target']
+    df = df[headers]
+
+    targets=['PayPal', 'Facebook','AOL','Google','Microsoft','Apple','Yahoo','Dropbox']
+    # data=df[df['Target'] == 'Dropbox'].values.tolist()
+    # data=zip(*zip(*data)[:-1])
+    # shuffle(data)
+    for i in targets:
+        data=df[df['Target'].str.lower() == i.lower()].values.tolist()
+        with open('../dataset/testing/'+i+'.csv', 'w') as f:
+                writer = csv.writer(f)
+                writer.writerow(headers[:-1])
+                data=zip(*zip(*data)[:-1])
+                shuffle(data)
+                writer.writerows(data)
+
+gen_testing_phistank()
 #read_csv_neg()
 #features_read()

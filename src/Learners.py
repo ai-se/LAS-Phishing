@@ -68,8 +68,8 @@ def measures(actual, predicted, labels):
 
 def run(corpus,label, target_class,test_data,test_labels,classifier):
     print("***** %s *****" % classifier.__name__)
-    splits = 5
-    folds=5
+    splits = 1
+    folds=1
     a,f,p,r,pf,area=[],[],[],[],[],[]
     corpus=np.array(corpus)
     label=np.array(label)
@@ -81,12 +81,18 @@ def run(corpus,label, target_class,test_data,test_labels,classifier):
         shuffle(tmp)
         corpus = corpus[tmp]
         label = label[tmp]
-        for train_inp, train_out, test_inp, test_out in split(corpus, label, splits):
-            test_inp=np.vstack((test_inp, test_data))
+        for j in [1]:
+        #for train_inp, train_out, test_inp, test_out in split(corpus, label, splits):
+            train_inp=corpus
+            test_inp= test_data
+            train_out=label
             model, predicted = classifier(train_inp, train_out, test_inp)
-            test_out=np.concatenate((test_out, test_labels))
-            labels=list(np.unique(test_out))
+            test_out= test_labels
+            labels=list(set(test_out))
+            #print(predicted)
+            #print(test_out)
             abcd = ABCD(before=test_out, after=predicted)
+            #print([k.stats() for k in abcd()])
             r1,_,p1,a1,f1,_,_,pf1=[k.stats() for k in abcd()][labels.index(target_class)]
             fpr, tpr, _ = roc_curve(test_out, predicted, pos_label=target_class)
             a.append(a1)
