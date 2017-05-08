@@ -8,7 +8,8 @@ test_lace
 Tests for `lace` module.
 """
 
-import unittest
+## This piece of code is taken from Jianfeng Chen
+
 import csv
 from CLIFF import *
 from MORPH import *
