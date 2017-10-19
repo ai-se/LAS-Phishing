@@ -45,8 +45,8 @@ if __name__ == '__main__':
         delta={}
         with open('../results/'+f+'.csv', 'wb') as g:
             writer = csv.writer(g)
-            headers = ['learners']
-
+            headers = ['learners','acc','pre','auc','f1','pf','rec']
+            writer.writerow(headers)
             for i in baseline[f].keys():
                 measure_med[i] = []
                 measure_iqr[i] = []
@@ -54,7 +54,6 @@ if __name__ == '__main__':
                 delta[i]=[]
             for learner,measure in baseline[f].iteritems():
                 measures=measure.keys()
-                writer.writerow(headers+measures)
                 for mea,value in measure.iteritems():
                     delta[learner].append(round(lace[f][learner][mea][0],2)-round(np.median(value),2))
                     lace_dic[learner].append(round(lace[f][learner][mea][0],2))
